@@ -1,4 +1,3 @@
-// src/app/page.tsx
 
 "use client"
 
@@ -8,7 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Code, BarChart2, Users } from 'lucide-react'
 import { Button } from "@/components/ui/button"
-import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision"
+import { BackgroundLines } from "@/components/ui/background-lines"
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -20,7 +19,7 @@ interface FeatureCardProps {
 export default function Home() {
   return (
     <div className="min-h-screen bg-background overflow-hidden relative">
-      <BackgroundBeamsWithCollision className="absolute inset-0 z-0" children={undefined} />
+      <BackgroundLines className="absolute inset-0 z-0" children={undefined} />
       <main className="relative z-10 flex flex-col items-center justify-center w-full px-4 py-16 text-center">
         <motion.h1 
           className="text-5xl md:text-7xl font-extrabold text-primary mb-6 animate-text-gradient bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent"
@@ -28,7 +27,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          CodeCraft: Test Management Reimagined
+          EDVITA: Streamlining Academic Success
         </motion.h1>
         
         <motion.p 
@@ -37,13 +36,13 @@ export default function Home() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.8 }}
         >
-          Transform your internship journey with an intelligent, data-driven platform that turns coding challenges into career opportunities. Showcase your skills, overcome complex problems, and accelerate your professional growth.
+          Transform your educational experience with our intelligent exam management and scheduling platform. Collaborate effectively, manage assessments, and enhance your academic journey.
         </motion.p>
         
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           <Link href="/register">
             <Button size="lg" className="text-lg group">
-              Start Your Journey
+              Get Started
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
@@ -57,26 +56,26 @@ export default function Home() {
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           <FeatureCard
             icon={<Code className="w-12 h-12 text-primary" />}
-            title="Advanced Coding Challenges"
-            description="Tackle real-world problems designed by industry experts, pushing the boundaries of your coding skills and problem-solving abilities."
+            title="Comprehensive Assessment Management"
+            description="Easily create, manage, and evaluate assessments tailored to your institution's needs."
             highlightColor="from-blue-500 to-purple-600"
           />
           <FeatureCard
             icon={<BarChart2 className="w-12 h-12 text-primary" />}
-            title="Intelligent Performance Analytics"
-            description="Receive deep, actionable insights into your coding performance, with AI-powered recommendations for skill improvement."
+            title="Insightful Performance Analytics"
+            description="Gain valuable insights into student performance with our data-driven analytics tools."
             highlightColor="from-green-500 to-teal-600"
           />
           <FeatureCard
             icon={<Users className="w-12 h-12 text-primary" />}
-            title="Competitive Benchmarking"
-            description="Compare your skills against top performers, identify your strengths, and strategically develop areas for growth."
+            title="Collaborative Learning Environment"
+            description="Foster collaboration among students and teachers through shared resources and communication tools."
             highlightColor="from-pink-500 to-red-600"
           />
         </div>
 
         <div className="mt-16 w-full overflow-hidden">
-          <h2 className="text-3xl font-bold mb-8 text-primary">Trusted by Industry Leaders</h2>
+          <h2 className="text-3xl font-bold mb-8 text-primary">Trusted by Educational Institutions</h2>
           <motion.div 
             className="flex items-center space-x-12 px-4"
             animate={{
@@ -130,3 +129,4 @@ function FeatureCard({ icon, title, description, highlightColor = "from-primary 
     </motion.div>
   )
 }
+
