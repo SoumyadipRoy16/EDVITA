@@ -21,7 +21,7 @@ export default function Header() {
     <header className="bg-background border-b">
       <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold text-primary">
-          TMS
+          EDVITA
         </Link>
         <div className="hidden md:flex space-x-4 items-center">
           <Link href="/" className="text-foreground hover:text-primary">
@@ -38,14 +38,14 @@ export default function Header() {
             </>
           ) : user.role === 'admin' ? (
             <>
-              <Link href="/admin/manage-questions" className="text-foreground hover:text-primary">
-                Manage Questions
+              <Link href="/admin/manage-schedule" className="text-foreground hover:text-primary">
+                Manage Schedule
               </Link>
-              <Link href="/admin/approve-applications" className="text-foreground hover:text-primary">
-                Approve Applications
+              <Link href="/admin/exam-allottment" className="text-foreground hover:text-primary">
+                Exam Allotment
               </Link>
-              <Link href="/admin/monitor-results" className="text-foreground hover:text-primary">
-                Monitor Results
+              <Link href="/admin/publish-results" className="text-foreground hover:text-primary">
+                Publish Results
               </Link>
               <Link href="/"
                 className="text-foreground hover:text-primary"
