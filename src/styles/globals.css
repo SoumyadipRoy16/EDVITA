@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 222.2 84% 4.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Ribbon effect */
+.ribbon-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ribbon {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  opacity: 0.5;
+  transform: rotate(-45deg);
+}
+
+.ribbon-1 {
+  top: -50%;
+  left: -50%;
+  background: linear-gradient(to right, transparent, rgba(var(--primary), 0.1), transparent);
+  animation: ribbon-move 20s linear infinite;
+}
+
+.ribbon-2 {
+  top: 0;
+  right: -50%;
+  background: linear-gradient(to right, transparent, rgba(var(--accent), 0.1), transparent);
+  animation: ribbon-move 15s linear infinite reverse;
+}
+
+.ribbon-3 {
+  bottom: -50%;
+  left: -50%;
+  background: linear-gradient(to right, transparent, rgba(var(--secondary), 0.1), transparent);
+  animation: ribbon-move 25s linear infinite;
+}
+
+@keyframes ribbon-move {
+  0% {
+    transform: rotate(-45deg) translateX(-50%);
+  }
+  100% {
+    transform: rotate(-45deg) translateX(50%);
+  }
+}
+
+/* Glowing orbs */
+.glow-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(30px);
+  opacity: 0.3;
+}
+
+.glow-1 {
+  width: 300px;
+  height: 300px;
+  top: -150px;
+  left: -150px;
+  background: radial-gradient(circle, rgba(var(--primary), 0.3) 0%, transparent 70%);
+  animation: glow-float 10s ease-in-out infinite;
+}
+
+.glow-2 {
+  width: 200px;
+  height: 200px;
+  bottom: -100px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(var(--accent), 0.3) 0%, transparent 70%);
+  animation: glow-float 8s ease-in-out infinite reverse;
+}
+
+.glow-3 {
+  width: 250px;
+  height: 250px;
+  top: 50%;
+  left: 50%;
+  background: radial-gradient(circle, rgba(var(--secondary), 0.3) 0%, transparent 70%);
+  animation: glow-float 12s ease-in-out infinite;
+}
+
+@keyframes glow-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Animated text gradient */
+.animate-text-gradient {
+  background-size: 200% 200%;
+  animation: text-gradient 5s ease infinite;
+}
+
+@keyframes text-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
