@@ -21,7 +21,7 @@ export default function Header() {
     <header className="bg-background border-b">
       <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold text-primary">
-          TMS
+          EDVITA
         </Link>
         <div className="hidden md:flex space-x-4 items-center">
           <Link href="/" className="text-foreground hover:text-primary">
