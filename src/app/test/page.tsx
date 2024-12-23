@@ -6,6 +6,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 import CodeEditor from '@/components/test/CodeEditor'
+import EditorComponent from '@/components/test/EditorComponent'
 import ProblemStatement from '@/components/test/ProblemStatement'
 import TestCaseValidation from '@/components/test/TestCaseValidation'
 import Timer from '@/components/test/Timer'
@@ -427,7 +428,7 @@ function TestContent() {
             />
           </div>
           <div>
-            <CodeEditor
+            <EditorComponent
               currentQuestionId={question?.id ?? ''}
               onQuestionChange={handleQuestionChange}
               onTestComplete={handleTestComplete}
