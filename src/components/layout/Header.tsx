@@ -38,14 +38,8 @@ export default function Header() {
             </>
           ) : user.role === 'admin' ? (
             <>
-              <Link href="/admin/manage-questions" className="text-foreground hover:text-primary">
-                Manage Questions
-              </Link>
-              <Link href="/admin/approve-applications" className="text-foreground hover:text-primary">
-                Approve Applications
-              </Link>
-              <Link href="/admin/monitor-results" className="text-foreground hover:text-primary">
-                Monitor Results
+              <Link href="/admin/dashboard" className="text-foreground hover:text-primary">
+                Dashboard
               </Link>
               <Link href="/"
                 className="text-foreground hover:text-primary"

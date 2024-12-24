@@ -1,3 +1,5 @@
+
+
 'use client'
 
 import { useEffect } from 'react'
@@ -19,35 +21,35 @@ export default function AdminDashboard() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center text-gradient">Admin Dashboard</h1>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card>
+        <Card className="transition-transform transform hover:scale-105 hover:shadow-lg bg-gradient-to-r from-blue-500 to-purple-500">
           <CardHeader>
-            <CardTitle>Manage Questions</CardTitle>
+            <CardTitle className="text-white">Manage Schedule</CardTitle>
           </CardHeader>
           <CardContent>
-            <Link href="/admin/manage-questions" className="text-primary hover:underline">
-              Go to Manage Questions
+            <Link href="/admin/manage-schedules" className="text-white hover:underline transition-colors duration-300">
+              Go to Manage Schedule
             </Link>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="transition-transform transform hover:scale-105 hover:shadow-lg bg-gradient-to-r from-green-500 to-teal-500">
           <CardHeader>
-            <CardTitle>Monitor Results</CardTitle>
+            <CardTitle className="text-white">Publish Results</CardTitle>
           </CardHeader>
           <CardContent>
-            <Link href="/admin/monitor-results" className="text-primary hover:underline">
-              Go to Monitor Results
+            <Link href="/admin/publish-results" className="text-white hover:underline transition-colors duration-300">
+              Go to Publish Results
             </Link>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="transition-transform transform hover:scale-105 hover:shadow-lg bg-gradient-to-r from-red-500 to-orange-500">
           <CardHeader>
-            <CardTitle>Approve Applications</CardTitle>
+            <CardTitle className="text-white">Make Exam Allotment</CardTitle>
           </CardHeader>
           <CardContent>
-            <Link href="/admin/approve-applications" className="text-primary hover:underline">
-              Go to Approve Applications
+            <Link href="/admin/exam-allotment" className="text-white hover:underline transition-colors duration-300">
+              Make Examination Seat Allotments
             </Link>
           </CardContent>
         </Card>
@@ -55,3 +57,4 @@ export default function AdminDashboard() {
     </div>
   )
 }
+
