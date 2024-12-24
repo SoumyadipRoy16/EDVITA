@@ -1,4 +1,4 @@
-# Test Management System
+# EDVITA: Streamlining Academic Success
 
 A comprehensive online platform built with Next.js for managing coding tests and internship applications. This system provides a seamless experience for candidates to take coding tests while giving administrators powerful tools to manage and evaluate applications.
 
