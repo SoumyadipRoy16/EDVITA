@@ -61,60 +61,86 @@ export const sendWelcomeEmail = async (firstName: string, email: string) => {
   try {
     await transporter.sendMail({
       from: {
-        name: 'TSM Platform',
+        name: 'EDUVITA Platform',
         address: process.env.SMTP_FROM_EMAIL!
       },
       to: email,
-      subject: '🎯 Get Ready to Ace Your TSM Test! 🚀',
-      html: `
+      subject: 'Welcome to the EDUVITA Platform – Unlock Your Academic and Coding Potential! 🌟',
+      html: `  
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; line-height: 1.6;">
           <h2>Hello ${firstName},</h2>
           
-          <p>Thank you for registering on the <strong>TSM Platform</strong>! 🌟 Here, you can test your skills on a curated set of challenges and unlock exciting interview opportunities if you excel. 💼✨</p>
+          <p>Thank you for registering on the <strong>EDUVITA Platform</strong>! 🌟 Here, you can explore a variety of features tailored to enhance both your academic journey and coding skills. Whether you're a student or a teacher, EDUVITA has something valuable for everyone!</p>
           
-          <p>Before diving in, let's go through some <strong>important rules and guidelines</strong> to ensure a smooth and fair test experience. 📝⚡</p>
+          <p>Before getting started, let’s walk through some key features and important guidelines for a seamless experience. 📝⚡</p>
           
-          <h3>🚨 Rules & Guidelines</h3>
+          <h3>🚨 Platform Features & Guidelines</h3>
           
+          <h4>For Students:</h4>
           <ul>
-            <li>📌 <strong>Questions</strong>: You'll face <strong>5 compulsory questions</strong> spanning various topics. No skipping! </li>
-            <li>⏳ <strong>Duration</strong>: You'll have exactly <strong>1 hour</strong> to complete the test. ⏱️</li>
-            <li>🔄 <strong>Reattempts</strong>: You get <strong>only 1 reattempt</strong>, so bring your A-game! 💪</li>
-            <li>💻 <strong>Coding Languages</strong>: Choose from <strong>Python, Java, JavaScript, or C/C++</strong>. </li>
-            <li>👀 <strong>Monitoring</strong>: The test is <strong>proctored</strong>. Any unfair means will lead to disqualification. 🚫⚠️</li>
+            <li>📌 <strong>Coding Challenges</strong>: Test your skills with curated challenges and stand a chance to unlock exciting opportunities! 💼✨</li>
+            <li>📌 <strong>Exam Seat Allocation</strong>: View your assigned exam seats and stay informed.</li>
+            <li>📌 <strong>Exam Timetables</strong>: Access your exam schedule anytime, ensuring you’re always prepared.</li>
           </ul>
           
-          <p>🧠 <strong>Pro Tip</strong>: Confidence is key. Stay calm, think clearly, and give it your best shot! 🌈</p>
+          <h4>For Teachers:</h4>
+          <ul>
+            <li>📌 <strong>Exam Invigilation Duty</strong>: Check your invigilation assignments effortlessly.</li>
+            <li>📌 <strong>Timetable Management</strong>: Stay updated with exam schedules at a glance.</li>
+            <li>📌 <strong>Coding Test Evaluation</strong>: Review and grade student submissions with ease.</li>
+          </ul>
           
-          <p>We wish you the very best of luck! 🍀 Let your skills shine, and don't let this opportunity pass you by! 🌟</p>
+          <h3>🎯 Coding Test Guidelines</h3>
+          <ul>
+            <li>📌 <strong>Questions</strong>: 5 compulsory questions covering various topics—no skipping!</li>
+            <li>⏳ <strong>Duration</strong>: 1 hour to complete the test.</li>
+            <li>🔄 <strong>Reattempts</strong>: Only 1 reattempt, so give it your best!</li>
+            <li>💻 <strong>Languages</strong>: Choose from Python, Java, JavaScript, or C/C++.</li>
+            <li>👀 <strong>Proctoring</strong>: Tests are monitored, and any unfair means will lead to disqualification. 🚫⚠️</li>
+          </ul>
           
-          <p><strong>Happy Coding!</strong> 💻🎉</p>
+          <p>🧠 <strong>Pro Tip</strong>: Confidence is your best ally. Stay calm, think clearly, and shine! 🌈</p>
+          
+          <p>We wish you the very best as you navigate the opportunities and tools available on EDUVITA. Let your skills and potential lead the way to success! 🌟</p>
           
           <p>Warm Regards,<br>
-          <strong>TSM Support</strong> 😊</p>
+          <strong>EDUVITA Support</strong> 😊</p>
         </div>
       `,
       text: `Hello ${firstName},
 
-Thank you for registering on the TSM Platform!
+Thank you for registering on the EDUVITA Platform! 🌟
 
-Rules & Guidelines:
-- Questions: 5 compulsory questions
-- Duration: 1 hour
-- Reattempts: 1 reattempt
-- Coding Languages: Python, Java, JavaScript, or C/C++
-- Monitoring: Proctored test
+Platform Features & Guidelines:
+For Students:
+- Coding Challenges: Test your skills with curated challenges and unlock exciting opportunities! 💼✨
+- Exam Seat Allocation: View your assigned exam seats and stay informed.
+- Exam Timetables: Access your exam schedule anytime, ensuring you’re always prepared.
 
-Pro Tip: Stay confident and give your best!
+For Teachers:
+- Exam Invigilation Duty: Check your invigilation assignments effortlessly.
+- Timetable Management: Stay updated with exam schedules at a glance.
+- Coding Test Evaluation: Review and grade student submissions with ease.
 
-Best of luck!
-TSM Support`
+🎯 Coding Test Guidelines:
+- Questions: 5 compulsory questions covering various topics—no skipping!
+- Duration: 1 hour to complete the test.
+- Reattempts: Only 1 reattempt, so give it your best!
+- Languages: Python, Java, JavaScript, or C/C++.
+- Proctoring: Tests are monitored, and any unfair means will lead to disqualification. 🚫⚠️
+
+Pro Tip: Confidence is your best ally. Stay calm, think clearly, and shine! 🌈
+
+We wish you the very best as you navigate the opportunities and tools available on EDUVITA. Let your skills and potential lead the way to success! 🌟
+
+Warm Regards,
+EDUVITA Support 😊`
     })
     
     console.log('Welcome Email sent successfully to:', email);
-    return true
+    return true;
   } catch (error) {
-    console.error('Welcome Email Error:', error)
-    return false
+    console.error('Welcome Email Error:', error);
+    return false;
   }
 }
