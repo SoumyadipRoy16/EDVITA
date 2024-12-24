@@ -62,46 +62,67 @@ const RoutineGenerator: React.FC = () => {
                 : [...prev, dept]
         );
     };
-
+    
+    // Update the savePDF function in your RoutineGenerator component
     const savePDF = async (allocation: string[][][]) => {
-        const doc = new jsPDF();
-        
-        const rows = allocation.flatMap((floor, floorIndex) =>
-            floor.flatMap((room, roomIndex) =>
-                room.map((seat, seatIndex) => [
-                    (floorIndex + 1).toString(),
-                    (roomIndex + 1).toString(),
-                    (seatIndex + 1).toString(),
-                    seat
-                ])
-            )
-        );
-
-        autoTable(doc, {
-            head: [['Floor', 'Room', 'Seat', 'Department']],
-            body: rows,
-            styles: { fontSize: 8 },
-            headStyles: { fillColor: [41, 128, 185] }
-        });
-
-        // Save locally
-        const pdfBlob = doc.output('blob');
-        const formData = new FormData();
-        formData.append('file', pdfBlob, 'allocation.pdf');
-
         try {
+            console.log('Client: Starting PDF generation');
+            const doc = new jsPDF();
+            
+            const rows = allocation.flatMap((floor, floorIndex) =>
+                floor.flatMap((room, roomIndex) =>
+                    room.map((seat, seatIndex) => [
+                        (floorIndex + 1).toString(),
+                        (roomIndex + 1).toString(),
+                        (seatIndex + 1).toString(),
+                        seat
+                    ])
+                )
+            );
+
+            autoTable(doc, {
+                head: [['Floor', 'Room', 'Seat', 'Department']],
+                body: rows,
+                styles: { fontSize: 8 },
+                headStyles: { fillColor: [41, 128, 185] }
+            });
+
+            console.log('Client: PDF generated, creating blob');
+            const pdfBlob = doc.output('blob');
+            const formData = new FormData();
+            formData.append('file', pdfBlob, 'allocation.pdf');
+
+            console.log('Client: Sending PDF to API, size:', pdfBlob.size, 'bytes');
             const response = await fetch('/api/save-pdf', {
                 method: 'POST',
                 body: formData
             });
             
-            if (!response.ok) throw new Error('Failed to save PDF');
+            const responseData = await response.json();
             
-            // Download in browser
+            if (!response.ok) {
+                throw new Error(`Server error: ${responseData.error} - ${responseData.details || ''}`);
+            }
+            
+            console.log('Client: PDF successfully saved to Supabase:', responseData.filepath);
+            
+            // Always download in browser
             doc.save('Seat_Allocation.pdf');
-        } catch (error) {
-            console.error('Error saving PDF:', error);
-            alert('Error saving PDF. Downloaded to browser only.');
+            
+            return responseData.filepath;
+            
+        } catch (error: any) {
+            console.error('Client: Error in PDF handling:', error);
+            
+            // More specific error message for the user
+            let errorMessage = 'Error saving PDF to server. ';
+            if (error.message.includes('Supabase')) {
+                errorMessage += 'There was a problem with the storage service. ';
+            }
+            errorMessage += 'The PDF has been downloaded to your browser only.';
+            
+            alert(errorMessage);
+            return null;
         }
     };
 
