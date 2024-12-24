@@ -79,7 +79,9 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-background overflow-hidden relative">
-      <BackgroundBeamsWithCollision className="absolute inset-0 z-0" children={undefined} />
+      <BackgroundBeamsWithCollision className="absolute inset-0 z-0">
+        {undefined}
+      </BackgroundBeamsWithCollision>
       <div className="container mx-auto px-4 py-8 relative z-10">
         {loginError && (
           <Toast 

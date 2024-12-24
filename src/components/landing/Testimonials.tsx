@@ -26,7 +26,7 @@ const testimonials = [
                 key={index}
                 className="bg-white p-6 rounded-lg shadow-md border border-gray-200"
               >
-                <p className="text-gray-600 mb-4">"{testimonial.content}"</p>
+                <p className="text-gray-600 mb-4">&ldquo;{testimonial.content}&rdquo;</p>
                 <div>
                   <p className="font-semibold">{testimonial.name}</p>
                   <p className="text-sm text-gray-500">{testimonial.role}</p>

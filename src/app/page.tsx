@@ -56,8 +56,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background overflow-hidden relative flex flex-col items-center justify-center">
-      <BackgroundLines className="absolute inset-0 z-0" children={undefined}/>
-      
+      <BackgroundLines className="absolute inset-0 z-0">
+        {undefined}
+      </BackgroundLines>
       <main className="relative z-10 flex flex-col items-center justify-center w-full px-4 py-16 text-center">
         <motion.h1 
           className="text-5xl md:text-7xl font-extrabold text-primary mb-6 animate-text-gradient bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent"

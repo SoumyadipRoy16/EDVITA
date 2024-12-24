@@ -368,7 +368,7 @@ function TestContent() {
                   <AlertDialogHeader>
                     <AlertDialogTitle>Full Screen Enabled</AlertDialogTitle>
                     <AlertDialogDescription>
-                      You are now in full-screen mode. Next, we'll request camera access.
+                      You are now in full-screen mode. Next, we&apos;ll request camera access.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
