@@ -37,27 +37,18 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      
-      const responseData = await response.json()
-      
-      if (response.ok) {
-        console.log('User Role:', responseData.user.role);
 
+      const responseData = await response.json()
+
+      if (response.ok) {
         login({
           name: `${responseData.user.firstName} ${responseData.user.lastName}`,
           role: responseData.user.role,
-          email: responseData.user.email
+          email: responseData.user.email,
         })
-        
-        // Specific routing based on user role
-        if (responseData.user.role === 'admin') {
-          router.push('/admin/dashboard')
-        } else if (responseData.user.role === 'user') {
-          router.push('/dashboard')
-        } else {
-          // Fallback routing if role is unexpected
-          router.push('/')
-        }
+
+        // Redirect based on user role
+        router.push(responseData.dashboardUrl)
       } else {
         setLoginError(responseData.message || 'Login failed')
       }

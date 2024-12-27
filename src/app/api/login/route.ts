@@ -1,4 +1,4 @@
-// app/api/login/route.ts
+//src/app/api/login/route.ts
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import jwt from 'jsonwebtoken'
@@ -11,13 +11,12 @@ export async function POST(request: Request) {
   const { email, password, provider } = await request.json()
 
   try {
-    // For social login email verification
+    // Social login flow
     if (provider) {
       const user = await User.findOne({ email })
       if (!user) {
         return NextResponse.json({ success: false, message: 'Email not registered' }, { status: 401 })
       }
-      // Create JWT token for social login
       const token = jwt.sign(
         { userId: user._id, email: user.email, role: user.role },
         process.env.JWT_SECRET || 'fallback_secret'
@@ -36,13 +35,13 @@ export async function POST(request: Request) {
           email: user.email,
           role: user.role,
           firstName: user.firstName,
-          lastName: user.lastName
+          lastName: user.lastName,
         },
-        dashboardUrl: user.role === 'admin' ? '/admin/dashboard' : '/dashboard'
+        dashboardUrl: user.role === 'admin' ? '/admin/dashboard' : '/dashboard',
       })
     }
 
-    // Regular email/password login
+    // Regular login flow
     const user = await User.findOne({ email })
     if (!user) {
       return NextResponse.json({ success: false, message: 'Invalid credentials' }, { status: 401 })
@@ -71,9 +70,9 @@ export async function POST(request: Request) {
         email: user.email,
         role: user.role,
         firstName: user.firstName,
-        lastName: user.lastName
+        lastName: user.lastName,
       },
-      dashboardUrl: user.role === 'admin' ? '/admin/dashboard' : '/dashboard'
+      dashboardUrl: user.role === 'admin' ? '/admin/dashboard' : '/dashboard',
     })
   } catch (error) {
     console.error('Login error:', error)
