@@ -11,12 +11,13 @@ export async function POST(request: Request) {
   const { email, password, provider } = await request.json()
 
   try {
-    // Social login flow
+    // For social login email verification
     if (provider) {
       const user = await User.findOne({ email })
       if (!user) {
         return NextResponse.json({ success: false, message: 'Email not registered' }, { status: 401 })
       }
+      // Create JWT token for social login
       const token = jwt.sign(
         { userId: user._id, email: user.email, role: user.role },
         process.env.JWT_SECRET || 'fallback_secret'
@@ -35,13 +36,13 @@ export async function POST(request: Request) {
           email: user.email,
           role: user.role,
           firstName: user.firstName,
-          lastName: user.lastName,
+          lastName: user.lastName
         },
-        dashboardUrl: user.role === 'admin' ? '/admin/dashboard' : '/dashboard',
+        dashboardUrl: user.role === 'admin' ? '/admin/dashboard' : '/dashboard'
       })
     }
 
-    // Regular login flow
+    // Regular email/password login
     const user = await User.findOne({ email })
     if (!user) {
       return NextResponse.json({ success: false, message: 'Invalid credentials' }, { status: 401 })
@@ -70,9 +71,9 @@ export async function POST(request: Request) {
         email: user.email,
         role: user.role,
         firstName: user.firstName,
-        lastName: user.lastName,
+        lastName: user.lastName
       },
-      dashboardUrl: user.role === 'admin' ? '/admin/dashboard' : '/dashboard',
+      dashboardUrl: user.role === 'admin' ? '/admin/dashboard' : '/dashboard'
     })
   } catch (error) {
     console.error('Login error:', error)
