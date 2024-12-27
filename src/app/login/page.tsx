@@ -1,4 +1,3 @@
-// src/app/login/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -8,7 +7,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { signIn, useSession } from 'next-auth/react'
 import { SocialMediaAuth } from "@/components/SocialMediaAuth"
 import { useAuth } from '@/contexts/AuthContext'
 import { Toast } from "@/components/ui/toast"
@@ -29,17 +27,6 @@ export default function Login() {
   const [loginError, setLoginError] = useState<string | null>(null)
   const router = useRouter()
   const { login } = useAuth()
-  const { data: session } = useSession()
-
-  useEffect(() => {
-    if (session?.user) {
-      if (session.user.role === 'admin') {
-        router.push('/admin/dashboard')
-      } else {
-        router.push('/dashboard')
-      }
-    }
-  }, [session, router])
 
   const onSubmit = async (data: LoginFormData) => {
     setIsSubmitting(true)
