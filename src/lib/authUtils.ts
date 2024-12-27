@@ -1,7 +1,7 @@
 // lib/authUtils.ts
 import { NextResponse } from "next/server";
 
-const redirectBase = process.env.OAUTH_REDIRECT_BASE || 'http://localhost:3000';
+const redirectBase = 'https://edvita.vercel.app/';
 
 export function getGoogleAuthURL() {
   if (!process.env.GOOGLE_CLIENT_ID) {
@@ -11,7 +11,7 @@ export function getGoogleAuthURL() {
   const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
   
   const options: Record<string, string> = {
-    redirect_uri: `${redirectBase}/api/auth/google/callback`,
+    redirect_uri: 'https://edvita.vercel.app/api/auth/google/callback',
     client_id: process.env.GOOGLE_CLIENT_ID,
     access_type: 'offline',
     response_type: 'code',
@@ -34,7 +34,7 @@ export function getGithubAuthURL() {
   const rootUrl = 'https://github.com/login/oauth/authorize';
   
   const options: Record<string, string> = {
-    redirect_uri: `${redirectBase}/api/auth/github/callback`,
+    redirect_uri: 'https://edvita.vercel.app/api/auth/github/callback',
     client_id: process.env.GITHUB_CLIENT_ID,
     scope: 'user:email'
   };
@@ -55,7 +55,7 @@ export async function getGoogleUserData(code: string): Promise<{ email: string }
       code,
       client_id: process.env.GOOGLE_CLIENT_ID,
       client_secret: process.env.GOOGLE_CLIENT_SECRET,
-      redirect_uri: `${redirectBase}/api/auth/google/callback`,
+      redirect_uri: 'https://edvita.vercel.app/api/auth/google/callback',
       grant_type: 'authorization_code'
     })
   });
@@ -88,7 +88,7 @@ export async function getGithubUserData(code: string): Promise<{ email: string }
       code,
       client_id: process.env.GITHUB_CLIENT_ID,
       client_secret: process.env.GITHUB_CLIENT_SECRET,
-      redirect_uri: `${redirectBase}/api/auth/github/callback`
+      redirect_uri: 'https://edvita.vercel.app/api/auth/github/callback'
     })
   });
 
