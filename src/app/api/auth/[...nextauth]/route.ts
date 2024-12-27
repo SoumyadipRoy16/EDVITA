@@ -1,9 +1,8 @@
-import NextAuth, { Session, AuthOptions } from "next-auth"
-import GithubProvider from "next-auth/providers/github"
-import GoogleProvider from "next-auth/providers/google"
-import { getServerSession } from "next-auth/next"
-import connectDB from "@/lib/mongodb"
-import type { UserFormData } from "@/types/registration"
+import NextAuth, { AuthOptions } from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+import { getServerSession } from "next-auth/next";
+import connectDB from "@/lib/mongodb";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -18,68 +17,83 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account }) {
-      if (!user.email) return false
-      
-      const db = await connectDB()
-      const existingUser = await db.collection('users').findOne({ email: user.email })
-      
-      if (!existingUser) {
-        return false // Redirect to registration if user doesn't exist
-      }
-      
-      // Update user with provider details
-      await db.collection('users').updateOne(
-        { email: user.email },
-        {
-          $set: {
-            lastLogin: new Date(),
-            [`${account?.provider}Id`]: user.id,
-          }
+      try {
+        if (!user.email) return false;
+
+        const db = await connectDB();
+        const existingUser = await db.collection("users").findOne({ email: user.email });
+
+        if (!existingUser) {
+          return false; // Redirect to registration if user doesn't exist
         }
-      )
-      
-      return true
+
+        // Update user with provider details
+        await db.collection("users").updateOne(
+          { email: user.email },
+          {
+            $set: {
+              lastLogin: new Date(),
+              [`${account?.provider}Id`]: account?.id, // Ensure the account ID is properly set
+            },
+          }
+        );
+
+        return true;
+      } catch (error) {
+        console.error("SignIn callback error:", error);
+        return false;
+      }
     },
     async session({ session, token }) {
-      if (session.user?.email) {
-        const db = await connectDB()
-        const dbUser = await db.collection('users').findOne({ email: session.user.email })
-        if (dbUser) {
-          session.user.id = dbUser._id.toString()
-          session.user.role = dbUser.role
-          session.user.firstName = dbUser.firstName
-          session.user.lastName = dbUser.lastName
-          session.user.education = dbUser.education
-          session.user.skills = dbUser.skills
-          session.user.resumeLink = dbUser.resumeLink
-          session.user.name = `${dbUser.firstName} ${dbUser.lastName}`
+      try {
+        if (session.user?.email) {
+          const db = await connectDB();
+          const dbUser = await db.collection("users").findOne({ email: session.user.email });
+
+          if (dbUser) {
+            session.user.id = dbUser._id.toString();
+            session.user.role = dbUser.role;
+            session.user.firstName = dbUser.firstName;
+            session.user.lastName = dbUser.lastName;
+            session.user.education = dbUser.education;
+            session.user.skills = dbUser.skills;
+            session.user.resumeLink = dbUser.resumeLink;
+            session.user.name = `${dbUser.firstName} ${dbUser.lastName}`;
+          }
         }
+        return session;
+      } catch (error) {
+        console.error("Session callback error:", error);
+        return session;
       }
-      return session
     },
     async redirect({ url, baseUrl }) {
-      // Custom redirect logic based on user role
-      if (url.startsWith(baseUrl)) {
-        const db = await connectDB()
-        const session = await getServerSession(authOptions)
-        const user = await db.collection('users').findOne({ 
-          email: session?.user?.email 
-        })
-        
-        if (user?.role === 'admin') {
-          return `${baseUrl}/admin/dashboard`
+      try {
+        if (url.startsWith(baseUrl)) {
+          const db = await connectDB();
+          const session = await getServerSession(authOptions);
+          const user = await db.collection("users").findOne({
+            email: session?.user?.email,
+          });
+
+          if (user?.role === "admin") {
+            return `${baseUrl}/admin/dashboard`;
+          }
+          return `${baseUrl}/dashboard`;
         }
-        return `${baseUrl}/dashboard`
+        return baseUrl;
+      } catch (error) {
+        console.error("Redirect callback error:", error);
+        return baseUrl;
       }
-      return baseUrl
-    }
+    },
   },
   pages: {
-    signIn: '/login',
-    error: '/login',
-  }
-}
+    signIn: "/login",
+    error: "/login", // Redirect error pages to the login page
+  },
+};
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };
