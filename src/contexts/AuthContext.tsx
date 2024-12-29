@@ -9,6 +9,7 @@ type User = {
   name: string
   email: string
   role: 'user' | 'admin'
+  authProvider?: string
 } | null
 
 type TestStatus = {

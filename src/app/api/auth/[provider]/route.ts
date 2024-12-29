@@ -1,4 +1,3 @@
-// app/api/auth/[provider]/route.ts
 import { NextResponse } from 'next/server';
 import { getGoogleAuthURL, getGithubAuthURL } from '@/lib/authUtils';
 
@@ -6,6 +5,8 @@ export async function GET(
   request: Request,
   { params }: { params: { provider: string } }
 ) {
+  const { searchParams } = new URL(request.url);
+  const role = searchParams.get('role') || 'user';
   const provider = params.provider;
 
   try {
@@ -21,7 +22,11 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({ url: authUrl });
+    // Append role to the OAuth provider's redirect_uri
+    const finalAuthUrl = new URL(authUrl);
+    finalAuthUrl.searchParams.append('state', role);
+
+    return NextResponse.json({ url: finalAuthUrl.toString() });
   } catch (error) {
     console.error('Auth error:', error);
     

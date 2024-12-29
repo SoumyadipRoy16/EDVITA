@@ -33,7 +33,7 @@ export const sendOTPEmail = async (email: string) => {
 
     await transporter.sendMail({
         from: {
-            name: 'TMS System',
+            name: 'EDUVITA Platform',
             address: process.env.SMTP_FROM_EMAIL!
           },
       to: email,

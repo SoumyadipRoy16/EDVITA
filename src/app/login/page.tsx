@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { SocialMediaAuth } from "@/components/SocialMediaAuth"
+//import { SocialMediaAuth } from "@/components/SocialMediaAuth"
 import { useAuth } from '@/contexts/AuthContext'
 import { Toast } from "@/components/ui/toast"
 import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision"
@@ -28,6 +28,46 @@ export default function Login() {
   const router = useRouter()
   const { login } = useAuth()
 
+  // Handle URL parameters for social auth errors
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const error = urlParams.get('error')
+    if (error) {
+      const errorMessages: { [key: string]: string } = {
+        auth_failed: 'Authentication failed. Please try again.',
+        invalid_provider: 'Invalid authentication provider.',
+        no_email: 'Email access is required for authentication.',
+        configuration: 'Authentication service is not properly configured.',
+        unknown: 'An unexpected error occurred during authentication.'
+      }
+      setLoginError(errorMessages[error] || 'Authentication failed')
+    }
+  }, [])
+
+  const processLogin = async (responseData: any) => {
+    if (responseData.user) {
+      login({
+        name: `${responseData.user.firstName} ${responseData.user.lastName}`.trim(),
+        role: responseData.user.role,
+        email: responseData.user.email,
+        authProvider: responseData.user.authProvider
+      })
+
+      // Redirect based on user role
+      if (responseData.dashboardUrl) {
+        router.push(responseData.dashboardUrl)
+      } else if (responseData.user.role === 'admin') {
+        router.push('/admin/dashboard')
+      } else if (responseData.user.role === 'user') {
+        router.push('/dashboard')
+      } else {
+        router.push('/')
+      }
+    } else {
+      throw new Error('Invalid response data')
+    }
+  }
+
   const onSubmit = async (data: LoginFormData) => {
     setIsSubmitting(true)
     setLoginError(null)
@@ -35,36 +75,50 @@ export default function Login() {
       const response = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password
+        }),
       })
       
       const responseData = await response.json()
       
       if (response.ok) {
-        console.log('User Role:', responseData.user.role)
-
-        login({
-          name: `${responseData.user.firstName} ${responseData.user.lastName}`,
-          role: responseData.user.role,
-          email: responseData.user.email
-        })
-
-        // Redirect based on user role
-        if (responseData.user.role === 'admin') {
-          router.push('/admin/dashboard')
-        } else if (responseData.user.role === 'user') {
-          router.push('/dashboard')
-        } else {
-          router.push('/')
-        }
+        await processLogin(responseData)
       } else {
         setLoginError(responseData.message || 'Login failed')
       }
     } catch (error) {
-      setLoginError('An unexpected error occurred')
       console.error('Error during login:', error)
+      setLoginError('An unexpected error occurred')
     }
     setIsSubmitting(false)
+  }
+
+  // Handle social auth callback
+  const handleSocialAuth = async (provider: string, data: any) => {
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: data.email,
+          provider,
+          accessToken: data.accessToken
+        }),
+      })
+
+      const responseData = await response.json()
+
+      if (response.ok) {
+        await processLogin(responseData)
+      } else {
+        setLoginError(responseData.message || 'Social authentication failed')
+      }
+    } catch (error) {
+      console.error('Error during social login:', error)
+      setLoginError('An unexpected error occurred during social authentication')
+    }
   }
 
   useEffect(() => {
@@ -86,6 +140,7 @@ export default function Login() {
           <Toast 
             message={loginError} 
             variant="destructive"
+            state={loginError ? "visible" : "hidden"}
             className="absolute top-4 left-1/2 -translate-x-1/2"
           />
         )}
@@ -130,7 +185,6 @@ export default function Login() {
                 {isSubmitting ? 'Logging in...' : 'Login'}
               </Button>
             </form>
-            <SocialMediaAuth action="Login" />
           </CardContent>
         </Card>
       </div>

@@ -12,6 +12,11 @@ const UserSchema = new mongoose.Schema({
     type: String,  // Comma-separated skills string
     default: ''
   },
+  authProvider: {
+    type: String,
+    enum: ['google', 'github', null],
+    default: null
+  },
   resumeLink: { 
     type: String,
     validate: {
